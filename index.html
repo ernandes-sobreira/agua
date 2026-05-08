@@ -92,7 +92,7 @@
   @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .cycle-info{margin-top:12px;padding:14px;background:#e1f5fe;border-radius:12px;border-left:4px solid var(--azul);min-height:60px}
   .cycle-info b{color:var(--azul-escuro);display:block;margin-bottom:4px}
- 
+
   /* CYCLE SCENE — illustrated mini-diagram per step */
   .cycle-scene{position:relative;margin-top:12px;height:180px;background:linear-gradient(180deg,#bbdefb 0%,#e1f5fe 100%);border-radius:14px;overflow:hidden;border:2px solid var(--bord);display:none}
   .cycle-scene.show{display:block;animation:fade .4s ease}
@@ -180,13 +180,26 @@
   /* GAME */
   #game-container{position:relative;width:100%;max-width:520px;margin:0 auto;aspect-ratio:3/4;background:linear-gradient(180deg,#b3e5fc 0%,#4fc3f7 60%,#0288d1 100%);border-radius:16px;border:3px solid var(--azul-escuro);overflow:hidden;touch-action:none;box-shadow:0 8px 24px rgba(0,0,0,.2)}
   #game-container .water-line{position:absolute;left:0;right:0;bottom:30%;height:4px;background:rgba(255,255,255,.4);box-shadow:0 0 12px rgba(255,255,255,.5)}
-  #game-container .basket{position:absolute;bottom:8px;width:80px;height:30px;background:radial-gradient(ellipse at top,#fff 0%,#bbdefb 100%);border:3px solid #fff;border-radius:0 0 60% 60%/0 0 100% 100%;transform:translateX(-50%);transition:left .08s linear}
+  #game-container .basket{position:absolute;bottom:8px;width:96px;height:64px;background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.08));border:3px solid #fff;border-radius:8px 8px 14px 14px;transform:translateX(-50%);transition:left .07s linear;overflow:hidden;box-shadow:0 6px 12px rgba(0,0,0,.25),inset 0 0 6px rgba(0,0,0,.2)}
+  #game-container .basket .water{position:absolute;left:0;right:0;bottom:0;height:0%;background:linear-gradient(180deg,#81d4fa 0%,#0288d1 100%);transition:height .35s cubic-bezier(.4,0,.2,1),background .3s;border-radius:0 0 11px 11px}
+  #game-container .basket .water::before{content:"";position:absolute;top:-4px;left:-10%;right:-10%;height:8px;background:radial-gradient(ellipse 30px 8px at center,#b3e5fc 40%,transparent 70%);animation:wWave 2.4s ease-in-out infinite alternate}
+  @keyframes wWave{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
+  #game-container .basket .lvl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6);z-index:2;pointer-events:none}
+  #game-container .basket.contaminated .water{background:linear-gradient(180deg,#a1887f,#5d4037)}
+  #game-container .basket.flash{animation:bFlash .35s}
+  @keyframes bFlash{50%{box-shadow:0 6px 18px rgba(255,82,82,.9),inset 0 0 18px rgba(255,82,82,.7);border-color:#ff5252}}
+  #game-container .basket.gain{animation:bGain .4s}
+  @keyframes bGain{50%{transform:translateX(-50%) scale(1.08);box-shadow:0 6px 18px rgba(76,175,80,.7)}}
   #game-container .falling{position:absolute;font-size:28px;line-height:1;animation:fall linear forwards;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
   @keyframes fall{to{transform:translate(-50%,calc(100vh + 60px))}}
-  .game-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;background:#fff;padding:10px 14px;border-radius:12px;border:1px solid var(--bord);font-weight:600}
-  .game-hud .live{color:var(--azul-escuro);font-size:15px}
-  .game-hud .live b{font-size:20px;color:var(--azul)}
+  .game-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;background:#fff;padding:10px 14px;border-radius:12px;border:1px solid var(--bord);font-weight:600;flex-wrap:wrap;gap:6px}
+  .game-hud .live{color:var(--azul-escuro);font-size:14px}
+  .game-hud .live b{font-size:19px;color:var(--azul)}
   .game-hud .live.danger b{color:var(--vermelho)}
+  .game-hud .live.fill b{color:#0277bd}
+  .fill-bar{height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;flex:1;min-width:120px;margin:0 6px}
+  .fill-bar > div{height:100%;background:linear-gradient(90deg,#4fc3f7,#0288d1);transition:width .35s ease,background .3s;border-radius:4px}
+  .fill-bar.danger > div{background:linear-gradient(90deg,#ff8a65,#e53935)}
 
   /* GLOSSARY */
   .gloss-search{margin-bottom:12px}
@@ -254,8 +267,7 @@
         <div class="stat"><b>97,5%</b><span>água salgada</span></div>
         <div class="stat"><b>2,5%</b><span>água doce</span></div>
         <div class="stat"><b>&lt;1%</b><span>disponível p/ uso</span></div>
-        <div class="stat"><b>2,2 bi</b><span>pessoas sem água segura</span></div>
-      </div>
+        <div class="stat"><b>2,2 bi</b><span>pessoas sem água segura</span></div>      </div>
     </div>
 
     <div class="feat">
@@ -285,6 +297,7 @@
       <p>De acordo com a <b>Portaria GM/MS Nº 888/2021</b>, água potável deve ter turbidez ≤ 5 NTU, cloro residual livre entre 0,2 e 5 mg/L e ausência de coliformes termotolerantes. O Plano Nacional de Saneamento Básico (PLANSAB) mira 99% de cobertura urbana até 2033.</p>
     </div>
   </section>
+
   <!-- CYCLE -->
   <section class="panel" id="p-cycle">
     <h2 class="section"><span class="ic">🔄</span> Ciclo da Água</h2>
@@ -306,7 +319,7 @@
       <div class="water-body"></div>
     </div>
 
-        <div class="cycle-scene" id="cycleScene"></div>
+    <div class="cycle-scene" id="cycleScene"></div>
     <div class="cycle-info" id="cycleInfo">
       <b>👆 Toque em uma etapa</b>
       <span>Cada etapa do ciclo tem um papel - escolha uma para ver os detalhes.</span>
@@ -533,8 +546,7 @@
       <div class="pegada-list" id="pegList"></div>
     </div>
 
-    <div class="card accent">
-      <h3>🛒 Sua pegada do dia</h3>
+    <div class="card accent">      <h3>🛒 Sua pegada do dia</h3>
       <p style="margin-bottom:10px">Marque o que você consumiu hoje:</p>
       <div id="pegPicker" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px"></div>
       <div class="result-big" style="margin-top:14px">
@@ -557,14 +569,18 @@
 
     <div class="game-hud">
       <div class="live">Fase <b id="gLvl">1</b></div>
-      <div class="live">Pontos <b id="gPts">0</b><span style="opacity:.5;font-size:13px"> / <span id="gGoal">30</span></span></div>
-      <div class="live"><b id="gWater">100%</b> 💧</div>
+      <div class="live fill">🪣 <b id="gFill">0%</b></div>
+      <div class="fill-bar" id="gFillBar"><div style="width:0%"></div></div>
+      <div class="live">⏱️ <b id="gTime">50</b>s</div>
       <div class="live" id="gLives">❤️❤️❤️</div>
-      <div class="live">⏱️ <b id="gTime">45</b>s</div>
+      <div class="live" style="font-size:12px;opacity:.7">pts <b id="gPts" style="font-size:14px">0</b></div>
     </div>
 
     <div id="game-container" tabindex="0">
-      <div class="basket" id="basket" style="left:50%"></div>
+      <div class="basket" id="basket" style="left:50%">
+        <div class="water" id="bWater"></div>
+        <div class="lvl" id="bLvl">0%</div>
+      </div>
       <div id="gameOverlay" style="display:none;position:absolute;inset:0;background:rgba(2,40,80,.85);color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:30">
         <div id="goEmoji" style="font-size:64px;margin-bottom:8px">🎉</div>
         <div id="goTitle" style="font-size:26px;font-weight:700;margin-bottom:4px">Fase 1 completa!</div>
@@ -584,8 +600,9 @@
 
     <div class="card ok" style="margin-top:14px">
       <h3>🎯 Como funciona</h3>
-      <p>São <b>5 fases</b>. Cada fase tem um <b>objetivo de pontos</b> e um <b>tempo limite</b>. Cumpra o objetivo antes do tempo acabar e mantenha a qualidade da água acima de 0% para passar de fase!</p>
-      <p style="margin-top:8px">💧 gota limpa = +5 pts, +5% água &nbsp; 💎 cristal = +10 pts &nbsp; 🛢️🚯 poluente = -5 pts, -10% água &nbsp; ☠️ tóxico = -10 pts, -20% água</p>
+      <p>São <b>5 fases</b>. Em cada uma você precisa <b>encher a cisterna até 100%</b> antes do tempo acabar. As fases ficam mais difíceis: mais poluentes, queda mais rápida e bursts simultâneos.</p>
+      <p style="margin-top:8px">💧 gota = <b>+4%</b> &nbsp; 💎 cristal = <b>+10%</b> &nbsp; 🛢️🚯🏭 poluente = <b>-8 a -16%</b> &nbsp; ☠️ tóxico = <b>contamina</b> a cisterna por 2s e drena!</p>
+      <p style="margin-top:8px">Se a cisterna ficar contaminada e cair a 0%, você perde uma vida. Sem vidas, fase perdida.</p>
       <p style="margin-top:8px">Seu progresso fica salvo: <b>Recorde:</b> Fase <span id="gBest">1</span></p>
     </div>
   </section>
@@ -798,8 +815,7 @@ function updateQuality(){
   if(goods===total){ov.innerHTML='💎 <b>Excelente</b> — água potável de alta qualidade.';ov.style.color='#1b5e20';}
   else if(goods>=total-1){ov.innerHTML='👍 <b>Boa</b> — atende padrões com pequenas ressalvas.';ov.style.color='#33691e';}
   else if(goods>=total/2){ov.innerHTML='⚠️ <b>Regular</b> — requer tratamento adicional.';ov.style.color='#bf360c';}
-  else{ov.innerHTML='☠️ <b>Imprópria</b> — não consuma sem tratamento.';ov.style.color='#b71c1c';}
-}
+  else{ov.innerHTML='☠️ <b>Imprópria</b> — não consuma sem tratamento.';ov.style.color='#b71c1c';}}
 Object.values(Q).forEach(q=>document.getElementById(q.r).addEventListener('input',updateQuality));
 updateQuality();
 
@@ -1054,73 +1070,122 @@ function renderGloss(filter=''){
   list.innerHTML=items.map(g=>`<details class="gterm"><summary>${g[0]}</summary><div>${g[1]}</div></details>`).join('');
 }
 renderGloss();
-document.getElementById('gSearch').addEventListener('input',e=>renderGloss(e.target.value));
-
-/* ===== Game: Catch the drops — leveled ===== */
+document.getElementById('gSearch').addEventListener('input',e=>renderGloss(e.target.value));/* ===== Game: Fill the cistern — leveled & harder ===== */
 const LEVELS=[
-  {n:1,goal:30,time:45,spawn:900,fallS:3.4,polRate:0.30,name:'Iniciante',msg:'Pegue gotas, evite poluentes.'},
-  {n:2,goal:60,time:50,spawn:780,fallS:3.0,polRate:0.34,name:'Aprendiz',msg:'Mais rápido. Mais poluentes.'},
-  {n:3,goal:100,time:55,spawn:680,fallS:2.7,polRate:0.40,name:'Defensor',msg:'Atenção: aparece tóxico ☠️!'},
-  {n:4,goal:160,time:60,spawn:580,fallS:2.4,polRate:0.45,name:'Guardião',msg:'Caos urbano! Reaja rápido.'},
-  {n:5,goal:240,time:60,spawn:480,fallS:2.0,polRate:0.50,name:'Mestre da Água',msg:'Final boss: chuva de tudo!'}
+  {n:1,name:'Iniciante',  time:50, spawn:680, fallS:3.0, polRate:0.28, multi:0.10, drain:8,  msg:'Encha a cisterna até 100%!'},
+  {n:2,name:'Aprendiz',   time:45, spawn:560, fallS:2.6, polRate:0.36, multi:0.20, drain:10, msg:'Mais poluentes. Cuidado!'},
+  {n:3,name:'Defensor',   time:42, spawn:480, fallS:2.3, polRate:0.44, multi:0.32, drain:12, msg:'Bursts: vários ao mesmo tempo!'},
+  {n:4,name:'Guardião',   time:40, spawn:400, fallS:2.0, polRate:0.50, multi:0.45, drain:14, msg:'Caos urbano! Reaja!'},
+  {n:5,name:'Mestre',     time:38, spawn:320, fallS:1.7, polRate:0.55, multi:0.60, drain:16, msg:'BOSS: tempestade tóxica!'}
 ];
 const G={
   area:document.getElementById('game-container'),
   basket:document.getElementById('basket'),
+  bWater:document.getElementById('bWater'),
+  bLvl:document.getElementById('bLvl'),
   overlay:document.getElementById('gameOverlay'),
-  pts:0, water:100, lives:3, running:false, paused:false,
+  fill:0, pts:0, lives:3, running:false, paused:false,
   levelIdx:0, lastSpawn:0, timeLeft:0,
-  bx:50, raf:null, timer:null
+  contamUntil:0, bx:50, raf:null, timer:null
 };
 G.best=parseInt(localStorage.getItem('hidro.gameBest')||'1',10);
 document.getElementById('gBest').textContent=G.best;
 
+function updateCistern(){
+  const f=Math.max(0,Math.min(100,G.fill));
+  G.bWater.style.height=f+'%';
+  G.bLvl.textContent=Math.round(f)+'%';
+  const contaminated = performance.now() < G.contamUntil;
+  G.basket.classList.toggle('contaminated', contaminated);
+}
 function gHud(){
   const lv=LEVELS[G.levelIdx];
-  document.getElementById('gPts').textContent=G.pts;
-  document.getElementById('gGoal').textContent=lv.goal;
   document.getElementById('gLvl').textContent=lv.n;
+  document.getElementById('gPts').textContent=G.pts;
+  const fillEl=document.getElementById('gFill');
+  fillEl.textContent=Math.round(G.fill)+'%';
+  const bar=document.getElementById('gFillBar');
+  bar.firstElementChild.style.width=Math.max(0,Math.min(100,G.fill))+'%';
+  bar.classList.toggle('danger', G.fill<25);
   document.getElementById('gTime').textContent=Math.max(0,Math.ceil(G.timeLeft));
-  const w=document.getElementById('gWater');
-  w.textContent=Math.max(0,Math.round(G.water))+'%';
-  w.parentElement.classList.toggle('danger',G.water<25);
   document.getElementById('gLives').textContent='❤️'.repeat(Math.max(0,G.lives))||'💔';
+  updateCistern();
 }
-function spawn(){
+function flashGood(){ G.basket.classList.remove('gain'); void G.basket.offsetWidth; G.basket.classList.add('gain'); }
+function flashBad(){  G.basket.classList.remove('flash'); void G.basket.offsetWidth; G.basket.classList.add('flash'); }
+function popFx(text,color){
+  const p=document.createElement('div');
+  p.textContent=text;
+  p.style.cssText=`position:absolute;left:${G.bx}%;bottom:80px;transform:translateX(-50%);color:${color};font-weight:700;font-size:18px;text-shadow:0 2px 4px rgba(0,0,0,.5);pointer-events:none;animation:popfx .9s forwards;z-index:5`;
+  G.area.appendChild(p);
+  setTimeout(()=>p.remove(),900);
+}
+if(!document.getElementById('popfxStyle')){
+  const s=document.createElement('style');s.id='popfxStyle';
+  s.textContent='@keyframes popfx{0%{opacity:0;transform:translate(-50%,0) scale(.8)}30%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px) scale(1)}}';
+  document.head.appendChild(s);
+}
+function spawnOne(){
   const lv=LEVELS[G.levelIdx];
-  const goods=[{e:'💧',g:1},{e:'💧',g:1},{e:'💧',g:1},{e:'💧',g:1},{e:'💎',g:2}];
-  const bads=[{e:'🛢️',g:-1},{e:'🚯',g:-1},{e:'🏭',g:-1},{e:'☠️',g:-2}];
-  const item = (Math.random()<lv.polRate?bads:goods)[Math.floor(Math.random()*4)];
-  if(!item) return;
+  const goods=[{e:'💧',k:'water'},{e:'💧',k:'water'},{e:'💧',k:'water'},{e:'💧',k:'water'},{e:'💎',k:'gem'}];
+  const bads=[{e:'🛢️',k:'oil'},{e:'🚯',k:'trash'},{e:'🏭',k:'fact'},{e:'☠️',k:'tox'}];
+  const isBad = Math.random()<lv.polRate;
+  const item = (isBad?bads:goods)[Math.floor(Math.random()*4)];
   const d=document.createElement('div');
   d.className='falling';
   d.textContent=item.e;
-  d.dataset.g=item.g;
+  d.dataset.k=item.k;
   d.style.left=(4+Math.random()*92)+'%';
   d.style.top='-30px';
-  d.style.animationDuration=lv.fallS+'s';
+  d.style.animationDuration=(lv.fallS*(0.85+Math.random()*0.3))+'s';
   G.area.appendChild(d);
 }
 function gTick(t){
   if(!G.running||G.paused){G.raf=requestAnimationFrame(gTick); return;}
   const lv=LEVELS[G.levelIdx];
-  if(t-G.lastSpawn > lv.spawn){ spawn(); G.lastSpawn=t; }
+  if(t-G.lastSpawn > lv.spawn){
+    spawnOne();
+    if(Math.random()<lv.multi) spawnOne();
+    if(G.levelIdx>=3 && Math.random()<lv.multi*0.4) spawnOne();
+    G.lastSpawn=t;
+  }
+  const contaminated = t < G.contamUntil;
+  if(contaminated){
+    G.fill = Math.max(0, G.fill - 0.35);
+    if(G.fill<=0){
+      G.lives--; G.fill=20; G.contamUntil=0;
+      flashBad();
+      if(G.lives<=0){ failLevel('Cisterna ficou seca!'); return; }
+    }
+    gHud();
+  }
   const bRect=G.basket.getBoundingClientRect();
   const aRect=G.area.getBoundingClientRect();
   G.area.querySelectorAll('.falling').forEach(d=>{
     const r=d.getBoundingClientRect();
     if(r.top > aRect.bottom){ d.remove(); return; }
     if(r.bottom>=bRect.top && r.left<bRect.right && r.right>bRect.left && r.top<bRect.bottom){
-      const g=+d.dataset.g;
+      const k=d.dataset.k;
       d.remove();
-      if(g>0){ G.pts+=g*5; G.water=Math.min(100,G.water+5); }
-      else { G.pts=Math.max(0,G.pts+g*5); G.water+=g*10; }
-      if(G.water<=0){
-        G.lives--; G.water=50;
-        if(G.lives<=0){ failLevel('Sua água acabou!'); return; }
+      if(k==='water'){ G.fill=Math.min(100,G.fill+4); G.pts+=5; flashGood(); popFx('+4%','#4fc3f7'); }
+      else if(k==='gem'){ G.fill=Math.min(100,G.fill+10); G.pts+=20; flashGood(); popFx('+10% ✨','#7e57c2'); }
+      else if(k==='tox'){
+        G.contamUntil = performance.now()+2000;
+        G.fill=Math.max(0,G.fill-lv.drain);
+        G.pts=Math.max(0,G.pts-15);
+        flashBad(); popFx('☠️ Contaminado!','#e53935');
+      }
+      else {
+        G.fill=Math.max(0,G.fill-lv.drain);
+        G.pts=Math.max(0,G.pts-5);
+        flashBad(); popFx('-'+lv.drain+'%','#e53935');
+        if(G.fill<=0){
+          G.lives--; G.fill=20;
+          if(G.lives<=0){ failLevel('Cisterna esvaziou!'); return; }
+        }
       }
       gHud();
-      if(G.pts>=lv.goal){ winLevel(); return; }
+      if(G.fill>=100 && !contaminated){ winLevel(); return; }
     }
   });
   G.raf=requestAnimationFrame(gTick);
@@ -1154,19 +1219,19 @@ function winLevel(){
     return;
   }
   document.getElementById('goRetry').style.display='';
-  showOverlay('🎉',`Fase ${LEVELS[G.levelIdx].n} concluída!`,`${G.pts} pontos · ${Math.round(G.water)}% qualidade. Próxima: ${LEVELS[G.levelIdx+1].name}.`,'▶️ Próxima fase',()=>startLevel(G.levelIdx+1));
+  showOverlay('🎉',`Fase ${LEVELS[G.levelIdx].n} concluída!`,`Cisterna cheia! +${G.pts} pontos. Próxima: ${LEVELS[G.levelIdx+1].name}.`,'▶️ Próxima fase',()=>startLevel(G.levelIdx+1));
 }
 function failLevel(reason){
   G.running=false; cancelAnimationFrame(G.raf); clearInterval(G.timer);
   document.getElementById('goRetry').style.display='';
-  showOverlay('💀',`Fase ${LEVELS[G.levelIdx].n} - falhou`,`${reason} Você fez ${G.pts}/${LEVELS[G.levelIdx].goal} pontos.`,'🔄 Tentar de novo',()=>startLevel(G.levelIdx));
+  showOverlay('💀',`Fase ${LEVELS[G.levelIdx].n} - falhou`,`${reason} Você encheu ${Math.round(G.fill)}% da cisterna.`,'🔄 Tentar de novo',()=>startLevel(G.levelIdx));
 }
 function startLevel(idx){
   hideOverlay();
   G.levelIdx=idx;
   const lv=LEVELS[idx];
   G.area.querySelectorAll('.falling').forEach(d=>d.remove());
-  G.pts=0; G.water=100; G.lives=3; G.timeLeft=lv.time;
+  G.fill=0; G.pts=0; G.lives=3; G.timeLeft=lv.time; G.contamUntil=0;
   G.running=true; G.paused=false; G.lastSpawn=performance.now();
   document.getElementById('gPause').disabled=false;
   document.getElementById('gPause').textContent='⏸️ Pausar';
@@ -1184,7 +1249,8 @@ function moveBasket(px){
 }
 document.getElementById('gStart').addEventListener('click',()=>{
   if(G.running) return;
-  startLevel(0);
+  const startIdx = Math.max(0, Math.min(G.best-1, LEVELS.length-1));
+  startLevel(startIdx);
 });
 document.getElementById('gPause').addEventListener('click',e=>{
   if(!G.running) return;
