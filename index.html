@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0277bd">
+<title>HidroSaber 💧 - Aprenda sobre Água</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{
+    --azul-claro:#4fc3f7;--azul:#0288d1;--azul-escuro:#01579b;--azul-profundo:#0d3a5c;
+    --turquesa:#26c6da;--verde:#66bb6a;--amarelo:#ffd54a;--vermelho:#ef5350;--laranja:#ff8a3d;
+    --bg:#e3f2fd;--card:#ffffff;--ink:#0d3a5c;--ink-soft:#37597a;--bord:#bbdefb;
+  }
+  html,body{font-family:'Fredoka',system-ui,sans-serif;background:linear-gradient(180deg,#bbdefb 0%,#e3f2fd 50%,#ffffff 100%);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+  body{padding-bottom:90px}
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,var(--azul-escuro),var(--azul));color:#fff;padding:14px 16px;box-shadow:0 4px 20px rgba(2,119,189,.3)}
+  .brand{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto}
+  .brand h1{font-size:22px;font-weight:700;letter-spacing:.3px}
+  .brand .tag{font-size:12px;opacity:.85;margin-left:auto;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px}
+  .level-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:rgba(255,255,255,.2);font-size:13px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.3);color:#fff;transition:.2s}
+  .level-pill:hover{background:rgba(255,255,255,.35)}
+
+  /* LEVEL PICKER */
+  .level-picker{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .level-btn{padding:8px 14px;border-radius:18px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+  .level-btn:hover{background:rgba(255,255,255,.25)}
+  .level-btn.active{background:#fff;color:var(--azul-escuro);border-color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+
+  /* NAV TABS */
+  nav.tabs{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bord);display:grid;grid-template-columns:repeat(7,1fr);z-index:40;box-shadow:0 -4px 20px rgba(2,119,189,.15)}
+  nav.tabs button{background:none;border:none;font-family:inherit;color:var(--ink-soft);padding:10px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:500;transition:.2s}
+  nav.tabs button .ic{font-size:22px}
+  nav.tabs button.active{color:var(--azul);font-weight:700}
+  nav.tabs button.active .ic{transform:scale(1.15)}
+
+  /* MAIN */
+  main{max-width:1100px;margin:0 auto;padding:18px 14px}
+  .panel{display:none;animation:fade .35s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  h2.section{font-size:24px;color:var(--azul-escuro);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  h2.section .ic{font-size:30px}
+  .lead{color:var(--ink-soft);margin-bottom:18px;line-height:1.55;font-size:15px}
+
+  .card{background:var(--card);border:1px solid var(--bord);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(2,119,189,.06)}
+  .card h3{color:var(--azul-escuro);margin-bottom:8px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .card p{line-height:1.6;color:var(--ink-soft)}
+  .card.accent{border-left:5px solid var(--azul)}
+  .card.warn{border-left:5px solid var(--vermelho);background:#fff5f5}
+  .card.ok{border-left:5px solid var(--verde);background:#f1f8f4}
+
+  .grid{display:grid;gap:12px}
+  .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  .grid-4{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+
+  /* HOME hero */
+  .hero{background:linear-gradient(135deg,var(--azul) 0%,var(--turquesa) 100%);color:#fff;border-radius:20px;padding:28px 22px;margin-bottom:18px;position:relative;overflow:hidden}
+  .hero::before{content:"💧";position:absolute;font-size:200px;right:-30px;top:-40px;opacity:.12}
+  .hero h2{font-size:28px;margin-bottom:8px}
+  .hero p{opacity:.95;line-height:1.55;max-width:600px}
+  .hero .stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px}
+  .hero .stat{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 14px;backdrop-filter:blur(6px)}
+  .hero .stat b{display:block;font-size:22px}
+  .hero .stat span{font-size:12px;opacity:.85}
+
+  .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+  .feat button{background:#fff;border:2px solid var(--bord);border-radius:14px;padding:14px 10px;font-family:inherit;cursor:pointer;text-align:center;transition:.2s;color:var(--ink)}
+  .feat button:hover{border-color:var(--azul);transform:translateY(-2px);box-shadow:0 6px 16px rgba(2,119,189,.15)}
+  .feat button .fic{font-size:30px;display:block;margin-bottom:6px}
+  .feat button b{font-size:14px;display:block;color:var(--azul-escuro)}
+  .feat button small{font-size:11px;color:var(--ink-soft)}
+
+  /* WATER CYCLE */
+  .cycle{position:relative;background:linear-gradient(180deg,#81d4fa 0%,#4fc3f7 50%,#29b6f6 100%);border-radius:18px;height:380px;overflow:hidden;border:2px solid var(--azul)}
+  .cycle .sun{position:absolute;top:14px;right:18px;font-size:50px;animation:spin 30s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .cycle .cloud{position:absolute;font-size:46px;cursor:pointer;transition:.2s;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+  .cycle .cloud:hover{transform:scale(1.15)}
+  .cycle .ground{position:absolute;bottom:0;left:0;right:0;height:90px;background:linear-gradient(180deg,#4caf50,#2e7d32)}
+  .cycle .water-body{position:absolute;bottom:14px;left:14px;right:14px;height:50px;background:linear-gradient(180deg,#0288d1,#01579b);border-radius:50% 50% 8px 8px / 80% 80% 8px 8px;opacity:.85}
+  .cycle .label{position:absolute;background:rgba(255,255,255,.92);padding:5px 10px;border-radius:14px;font-size:12px;font-weight:600;color:var(--azul-escuro);box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;border:2px solid transparent;transition:.2s}
+  .cycle .label.active{border-color:var(--amarelo);transform:scale(1.08)}
+  .cycle .arrow{position:absolute;font-size:28px;opacity:.6;animation:bounce 2s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .cycle-info{margin-top:12px;padding:14px;background:#e1f5fe;border-radius:12px;border-left:4px solid var(--azul);min-height:60px}
+  .cycle-info b{color:var(--azul-escuro);display:block;margin-bottom:4px}
+
+  /* QUALITY PARAMETERS */
+  .quality-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .qcard{background:#fff;border-radius:14px;padding:16px;border:1px solid var(--bord);box-shadow:0 2px 10px rgba(2,119,189,.07)}
+  .qcard h4{color:var(--azul-escuro);font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .slider-wrap{margin:10px 0}
+  .slider-wrap input[type=range]{width:100%;accent-color:var(--azul)}
+  .slider-info{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);margin-top:4px}
+  .verdict{margin-top:8px;padding:8px 12px;border-radius:10px;font-size:13px;font-weight:600}
+  .verdict.good{background:#c8e6c9;color:#1b5e20}
+  .verdict.warn{background:#ffe0b2;color:#bf360c}
+  .verdict.bad{background:#ffcdd2;color:#b71c1c}
+
+  /* CALCULATOR */
+  label.field{display:block;margin-bottom:14px}
+  label.field span{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:6px;font-weight:600}
+  input[type=number],select{width:100%;padding:12px 14px;font-size:15px;font-family:inherit;border:2px solid var(--bord);border-radius:10px;background:#fff;color:var(--ink);outline:none;transition:.2s}
+  input[type=number]:focus,select:focus{border-color:var(--azul)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;font-size:15px;font-weight:600;font-family:inherit;border:none;border-radius:12px;cursor:pointer;transition:.2s;background:var(--azul);color:#fff;box-shadow:0 4px 0 var(--azul-escuro)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--azul-escuro)}
+  .btn.alt{background:var(--turquesa);box-shadow:0 4px 0 #00838f}
+  .btn.ghost{background:transparent;color:var(--azul);border:2px solid var(--azul);box-shadow:none}
+  .btn.warn{background:var(--laranja);box-shadow:0 4px 0 #e65100}
+
+  .result-big{text-align:center;padding:22px;background:linear-gradient(135deg,#e1f5fe,#b3e5fc);border-radius:14px;margin-top:14px;border:2px dashed var(--azul)}
+  .result-big .num{font-size:42px;font-weight:700;color:var(--azul-escuro);line-height:1.1}
+  .result-big .unit{font-size:18px;color:var(--ink-soft);margin-top:4px}
+  .result-big .hint{font-size:13px;color:var(--ink-soft);margin-top:10px}
+
+  /* QUIZ */
+  .quiz-q{background:#fff;border-radius:14px;padding:18px;border:1px solid var(--bord);margin-bottom:12px}
+  .quiz-q .qno{display:inline-block;background:var(--azul);color:#fff;font-weight:700;font-size:13px;padding:3px 10px;border-radius:14px;margin-bottom:8px}
+  .quiz-q h4{font-size:16px;color:var(--ink);margin-bottom:12px;line-height:1.5}
+  .opts{display:grid;gap:8px}
+  .opt{padding:12px 14px;border:2px solid var(--bord);border-radius:10px;background:#fafdff;cursor:pointer;font-family:inherit;font-size:14px;text-align:left;color:var(--ink);transition:.15s}
+  .opt:hover{border-color:var(--azul);background:#e1f5fe}
+  .opt.correct{border-color:var(--verde);background:#c8e6c9;color:#1b5e20;font-weight:600}
+  .opt.wrong{border-color:var(--vermelho);background:#ffcdd2;color:#b71c1c}
+  .opt.disabled{cursor:not-allowed;pointer-events:none}
+  .explain{margin-top:10px;padding:10px 12px;background:#fff8e1;border-left:3px solid var(--amarelo);border-radius:8px;font-size:13px;line-height:1.5;color:#5d4037}
+  .quiz-progress{height:8px;background:var(--bord);border-radius:4px;overflow:hidden;margin-bottom:14px}
+  .quiz-progress > div{height:100%;background:linear-gradient(90deg,var(--turquesa),var(--azul));transition:width .3s}
+  .quiz-final{text-align:center;padding:24px;background:linear-gradient(135deg,#e1f5fe,#b2ebf2);border-radius:16px}
+  .quiz-final .score{font-size:54px;font-weight:700;color:var(--azul-escuro)}
+  .quiz-final .badge{display:inline-block;margin-top:10px;padding:8px 18px;border-radius:20px;font-weight:600;background:#ffd54a;color:#5d4037}
+
+  /* TREATMENT */
+  .steps{display:grid;gap:10px}
+  .step{display:grid;grid-template-columns:50px 1fr;gap:12px;align-items:center;background:#fff;border:1px solid var(--bord);border-radius:12px;padding:14px;transition:.2s}
+  .step:hover{transform:translateX(4px);border-color:var(--azul)}
+  .step .n{width:46px;height:46px;border-radius:50%;background:var(--azul);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
+  .step b{display:block;color:var(--azul-escuro);margin-bottom:2px}
+  .step small{color:var(--ink-soft);line-height:1.5;font-size:13px}
+
+  /* FOOTPRINT */
+  .pegada-list{display:grid;gap:8px;max-height:340px;overflow-y:auto;padding-right:6px}
+  .pegada-row{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;background:#fff;border:1px solid var(--bord);border-radius:10px;padding:10px 12px}
+  .pegada-row .em{font-size:24px}
+  .pegada-row b{color:var(--ink);font-size:14px}
+  .pegada-row small{color:var(--ink-soft);font-size:11px;display:block}
+  .pegada-row .vol{color:var(--azul);font-weight:700;font-size:14px;white-space:nowrap}
+  .pegada-bar{height:6px;background:var(--bord);border-radius:3px;overflow:hidden;margin-top:4px}
+  .pegada-bar > div{height:100%;background:linear-gradient(90deg,var(--turquesa),var(--azul))}
+
+  /* GAME */
+  #game-container{position:relative;width:100%;max-width:520px;margin:0 auto;aspect-ratio:3/4;background:linear-gradient(180deg,#b3e5fc 0%,#4fc3f7 60%,#0288d1 100%);border-radius:16px;border:3px solid var(--azul-escuro);overflow:hidden;touch-action:none;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  #game-container .water-line{position:absolute;left:0;right:0;bottom:30%;height:4px;background:rgba(255,255,255,.4);box-shadow:0 0 12px rgba(255,255,255,.5)}
+  #game-container .basket{position:absolute;bottom:8px;width:80px;height:30px;background:radial-gradient(ellipse at top,#fff 0%,#bbdefb 100%);border:3px solid #fff;border-radius:0 0 60% 60%/0 0 100% 100%;transform:translateX(-50%);transition:left .08s linear}
+  #game-container .falling{position:absolute;font-size:28px;line-height:1;animation:fall linear forwards;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+  @keyframes fall{to{transform:translate(-50%,calc(100vh + 60px))}}
+  .game-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;background:#fff;padding:10px 14px;border-radius:12px;border:1px solid var(--bord);font-weight:600}
+  .game-hud .live{color:var(--azul-escuro);font-size:15px}
+  .game-hud .live b{font-size:20px;color:var(--azul)}
+  .game-hud .live.danger b{color:var(--vermelho)}
+
+  /* GLOSSARY */
+  .gloss-search{margin-bottom:12px}
+  .gloss-search input{width:100%;padding:12px 16px;border-radius:10px;border:2px solid var(--bord);font-size:15px;font-family:inherit}
+  details.gterm{background:#fff;border:1px solid var(--bord);border-radius:10px;margin-bottom:8px;overflow:hidden}
+  details.gterm[open]{border-color:var(--azul)}
+  details.gterm summary{padding:12px 16px;font-weight:600;color:var(--azul-escuro);cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+  details.gterm summary::-webkit-details-marker{display:none}
+  details.gterm summary::after{content:"+";margin-left:auto;font-size:22px;color:var(--azul);transition:.2s}
+  details.gterm[open] summary::after{transform:rotate(45deg)}
+  details.gterm > div{padding:0 16px 14px;color:var(--ink-soft);line-height:1.6;font-size:14px;border-top:1px solid var(--bord)}
+
+  /* HELPERS */
+  .pill{display:inline-block;background:var(--bord);color:var(--azul-escuro);padding:3px 10px;border-radius:14px;font-size:11px;font-weight:600;margin-right:4px;margin-bottom:4px}
+  .pill.k{background:#c8e6c9;color:#1b5e20}
+  .pill.j{background:#fff9c4;color:#f57f17}
+  .pill.g{background:#d1c4e9;color:#311b92}
+  .level-only{display:none}
+  body[data-level="kids"] .level-only.kids,body[data-level="teens"] .level-only.teens,body[data-level="uni"] .level-only.uni{display:block}
+  body[data-level="kids"] .hide-kids,body[data-level="teens"] .hide-teens,body[data-level="uni"] .hide-uni{display:none}
+
+  .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--azul-escuro);color:#fff;padding:12px 20px;border-radius:24px;font-weight:600;font-size:14px;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3);animation:toastIn .3s ease,toastOut .3s ease 2.4s forwards}
+  @keyframes toastIn{from{opacity:0;transform:translate(-50%,20px)}}
+  @keyframes toastOut{to{opacity:0;transform:translate(-50%,-20px)}}
+
+  /* DROPLET ANIMATION */
+  .drops{position:fixed;top:0;left:0;right:0;height:0;pointer-events:none;z-index:1}
+  .drop{position:absolute;font-size:18px;animation:dropfall linear infinite}
+  @keyframes dropfall{0%{transform:translateY(-30px);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(100vh);opacity:0}}
+
+  @media (max-width:520px){
+    .brand h1{font-size:18px}
+    .brand .tag{display:none}
+    .hero{padding:22px 18px}
+    .hero h2{font-size:22px}
+    nav.tabs button{font-size:9px}
+    nav.tabs button .ic{font-size:20px}
+  }
+</style>
+</head>
+<body data-level="kids">
+
+<div class="drops" aria-hidden="true"></div>
+
+<header>
+  <div class="brand">
+    <span style="font-size:30px">💧</span>
+    <h1>HidroSaber</h1>
+    <span class="tag">qualidade & quantidade da água</span>
+  </div>
+  <div class="level-picker" role="tablist" aria-label="Nível de aprendizado">
+    <button class="level-btn active" data-level="kids" type="button">🧒 Crianças (7-11)</button>
+    <button class="level-btn" data-level="teens" type="button">🎒 Jovens (12-17)</button>
+    <button class="level-btn" data-level="uni" type="button">🎓 Graduação</button>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="panel active" id="p-home">
+    <div class="hero">
+      <h2>A água é vida 💧</h2>
+      <p>Aprenda como cuidar da água, descubra de onde ela vem, mede sua qualidade, calcule quanto você precisa por dia e teste seus conhecimentos.</p>
+      <div class="stats">
+        <div class="stat"><b>97,5%</b><span>água salgada</span></div>
+        <div class="stat"><b>2,5%</b><span>água doce</span></div>
+        <div class="stat"><b>&lt;1%</b><span>disponível p/ uso</span></div>
+        <div class="stat"><b>2,2 bi</b><span>pessoas sem água segura</span></div>
+      </div>
+    </div>
+
+    <div class="feat">
+      <button data-go="cycle"><span class="fic">🔄</span><b>Ciclo da Água</b><small>como ela se move</small></button>
+      <button data-go="quality"><span class="fic">🔬</span><b>Qualidade</b><small>pH, turbidez, mais</small></button>
+      <button data-go="calc"><span class="fic">🧮</span><b>Calculadora</b><small>quanto beber</small></button>
+      <button data-go="quiz"><span class="fic">❓</span><b>Quiz</b><small>3 níveis</small></button>
+      <button data-go="treat"><span class="fic">🏭</span><b>Tratamento</b><small>etapas do ETA</small></button>
+      <button data-go="game"><span class="fic">🎮</span><b>Jogo</b><small>salve as gotas</small></button>
+    </div>
+
+    <div class="card accent">
+      <h3>📚 Para todas as idades</h3>
+      <p>Use os botões no topo para escolher o nível: <b>Crianças</b>, <b>Jovens</b> ou <b>Graduação</b>. O conteúdo, o quiz e os detalhes técnicos se adaptam automaticamente.</p>
+    </div>
+
+    <div class="card warn level-only kids">
+      <h3>💡 Você sabia?</h3>
+      <p>Uma torneira pingando pode desperdiçar até <b>46 litros de água por dia</b>! Isso dá mais de 16 mil litros em um ano - quase uma piscina pequena!</p>
+    </div>
+    <div class="card warn level-only teens">
+      <h3>💡 Fato chocante</h3>
+      <p>Cada brasileiro consome em média <b>154 litros de água por dia</b> - quase o dobro do mínimo recomendado pela ONU (110 L). E um banho de 15 minutos pode usar 135 litros.</p>
+    </div>
+    <div class="card warn level-only uni">
+      <h3>💡 Contexto técnico</h3>
+      <p>De acordo com a <b>Portaria GM/MS Nº 888/2021</b>, água potável deve ter turbidez ≤ 5 NTU, cloro residual livre entre 0,2 e 5 mg/L e ausência de coliformes termotolerantes. O Plano Nacional de Saneamento Básico (PLANSAB) mira 99% de cobertura urbana até 2033.</p>
+    </div>
+  </section>
+  <!-- CYCLE -->
+  <section class="panel" id="p-cycle">
+    <h2 class="section"><span class="ic">🔄</span> Ciclo da Água</h2>
+    <p class="lead">A água nunca some - ela se transforma e viaja pelo planeta há bilhões de anos. <span class="hide-kids">Toque nas etapas para aprender mais.</span><span class="level-only kids">Clique nas nuvens e setinhas para descobrir!</span></p>
+
+    <div class="cycle" id="cycleSvg">
+      <span class="sun" title="Sol">☀️</span>
+      <span class="cloud" style="top:14%;left:18%" data-step="condensa">☁️</span>
+      <span class="cloud" style="top:8%;left:46%;font-size:60px" data-step="precip">🌧️</span>
+      <span class="cloud" style="top:18%;left:72%" data-step="condensa">☁️</span>
+      <span class="label" style="top:40%;left:6%" data-step="evapora">⬆️ Evaporação</span>
+      <span class="label" style="top:30%;left:38%" data-step="condensa">Condensação</span>
+      <span class="label" style="top:54%;left:60%" data-step="precip">⬇️ Precipitação</span>
+      <span class="label" style="top:70%;left:14%" data-step="infiltra">Infiltração</span>
+      <span class="label" style="top:78%;left:50%" data-step="escoa">Escoamento</span>
+      <span class="arrow" style="top:48%;left:18%">↑</span>
+      <span class="arrow" style="top:62%;left:54%;animation-delay:.5s">↓</span>
+      <div class="ground"></div>
+      <div class="water-body"></div>
+    </div>
+
+    <div class="cycle-info" id="cycleInfo">
+      <b>👆 Toque em uma etapa</b>
+      <span>Cada etapa do ciclo tem um papel - escolha uma para ver os detalhes.</span>
+    </div>
+
+    <div class="card level-only uni" style="margin-top:14px">
+      <h3>🎓 Aprofundamento</h3>
+      <p>O ciclo hidrológico é regido por <b>fluxos energéticos</b> (radiação solar) e <b>gradientes de pressão</b>. A evapotranspiração combina evaporação direta (de superfícies de água, solo) e transpiração vegetal. Em escala global, ~505.000 km³ de água evaporam por ano dos oceanos, dos quais ~91% retorna como precipitação ao próprio oceano. Em bacias hidrográficas, balanço hídrico segue: <b>P = ET + Q + ΔS</b> (precipitação = evapotranspiração + escoamento + variação de armazenamento).</p>
+    </div>
+  </section>
+
+  <!-- QUALITY -->
+  <section class="panel" id="p-quality">
+    <h2 class="section"><span class="ic">🔬</span> Qualidade da Água</h2>
+    <p class="lead">Mexa nos controles para ver como cada parâmetro afeta se a água é potável (boa para beber).</p>
+
+    <div class="quality-grid">
+      <div class="qcard" data-q="ph">
+        <h4>⚖️ pH (acidez)</h4>
+        <p style="font-size:13px;color:var(--ink-soft)">Mede se a água é ácida (baixa) ou básica (alta). Potável: <b>6,0 a 9,5</b>.</p>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="14" step="0.1" value="7" id="ph-r">
+          <div class="slider-info"><span>0 ácido</span><b id="ph-v">7,0</b><span>14 básico</span></div>
+        </div>
+        <div class="verdict" id="ph-vd">A definir</div>
+      </div>
+
+      <div class="qcard" data-q="turb">
+        <h4>🌫️ Turbidez (NTU)</h4>
+        <p style="font-size:13px;color:var(--ink-soft)">Mede a "sujeira" visual da água. Potável: <b>≤ 5 NTU</b>.</p>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="100" step="0.5" value="2" id="turb-r">
+          <div class="slider-info"><span>0 limpa</span><b id="turb-v">2,0 NTU</b><span>100 turva</span></div>
+        </div>
+        <div class="verdict" id="turb-vd">A definir</div>
+      </div>
+
+      <div class="qcard" data-q="cl">
+        <h4>🧪 Cloro residual (mg/L)</h4>
+        <p style="font-size:13px;color:var(--ink-soft)">Combate microrganismos. Faixa segura: <b>0,2 a 5 mg/L</b>.</p>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="8" step="0.05" value="0.8" id="cl-r">
+          <div class="slider-info"><span>0</span><b id="cl-v">0,80</b><span>8</span></div>
+        </div>
+        <div class="verdict" id="cl-vd">A definir</div>
+      </div>
+
+      <div class="qcard" data-q="dur">
+        <h4>🪨 Dureza (mg/L CaCO₃)</h4>
+        <p style="font-size:13px;color:var(--ink-soft)">Quantidade de cálcio e magnésio. Branda: ≤ 60. Dura: ≥ 180.</p>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="500" step="1" value="80" id="dur-r">
+          <div class="slider-info"><span>0</span><b id="dur-v">80</b><span>500</span></div>
+        </div>
+        <div class="verdict" id="dur-vd">A definir</div>
+      </div>
+
+      <div class="qcard" data-q="od">
+        <h4>💨 Oxigênio dissolvido (mg/L)</h4>
+        <p style="font-size:13px;color:var(--ink-soft)">Vital para peixes. Rios saudáveis: <b>≥ 5 mg/L</b>.</p>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="14" step="0.1" value="7" id="od-r">
+          <div class="slider-info"><span>0 morto</span><b id="od-v">7,0</b><span>14 saturado</span></div>
+        </div>
+        <div class="verdict" id="od-vd">A definir</div>
+      </div>
+
+      <div class="qcard" data-q="col">
+        <h4>🦠 Coliformes (UFC/100mL)</h4>
+        <p style="font-size:13px;color:var(--ink-soft)">Indicador biológico. Potável: <b>0 (ausência)</b>.</p>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="2000" step="1" value="0" id="col-r">
+          <div class="slider-info"><span>0</span><b id="col-v">0</b><span>2000+</span></div>
+        </div>
+        <div class="verdict" id="col-vd">A definir</div>
+      </div>
+    </div>
+
+    <div class="card ok" style="margin-top:14px">
+      <h3>✅ Veredito geral</h3>
+      <p id="overallVerdict" style="font-size:16px;font-weight:600">Ajuste os controles acima para uma análise.</p>
+    </div>
+
+    <div class="card level-only uni">
+      <h3>🎓 Padrões legais (Brasil)</h3>
+      <p>A <b>Portaria GM/MS 888/2021</b> e a <b>Resolução CONAMA 357/2005</b> definem os padrões:</p>
+      <ul style="margin-top:8px;padding-left:20px;line-height:1.8;color:var(--ink-soft)">
+        <li>Turbidez (água tratada): ≤ 5 NTU (preferencialmente ≤ 1 NTU pós-filtração)</li>
+        <li>Cor aparente: ≤ 15 uH</li>
+        <li>Cloro residual livre: 0,2 - 5,0 mg/L</li>
+        <li>Coliformes termotolerantes: ausência em 100 mL</li>
+        <li>Nitrato: ≤ 10 mg/L (N)</li>
+        <li>Mercúrio: ≤ 0,001 mg/L; chumbo ≤ 0,01 mg/L</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="panel" id="p-calc">
+    <h2 class="section"><span class="ic">🧮</span> Calculadora de Hidratação</h2>
+    <p class="lead">Quanta água você deve beber por dia? Depende do seu peso, idade, atividade e clima.</p>
+
+    <div class="card">
+      <div class="grid grid-2">
+        <label class="field"><span>Idade</span>
+          <input type="number" id="cAge" min="3" max="100" value="10">
+        </label>
+        <label class="field"><span>Peso (kg)</span>
+          <input type="number" id="cKg" min="10" max="200" value="35">
+        </label>
+        <label class="field"><span>Atividade física</span>
+          <select id="cAct">
+            <option value="1">Sedentário (pouca atividade)</option>
+            <option value="1.15" selected>Leve (caminhada, brincadeiras)</option>
+            <option value="1.3">Moderada (esporte 3-4×/sem)</option>
+            <option value="1.5">Intensa (esporte diário)</option>
+            <option value="1.7">Atleta (treinos longos)</option>
+          </select>
+        </label>
+        <label class="field"><span>Clima/temperatura</span>
+          <select id="cClim">
+            <option value="1">Ameno (18-24°C)</option>
+            <option value="1.1" selected>Quente (25-30°C)</option>
+            <option value="1.2">Muito quente (>30°C)</option>
+            <option value="0.95">Frio (<18°C)</option>
+          </select>
+        </label>
+      </div>
+      <button class="btn" id="calcBtn">💧 Calcular</button>
+
+      <div class="result-big" id="calcResult" style="display:none">
+        <div class="num" id="calcNum">0</div>
+        <div class="unit">litros por dia</div>
+        <div class="hint" id="calcHint"></div>
+      </div>
+    </div>
+
+    <div class="card level-only uni">
+      <h3>🎓 Metodologia</h3>
+      <p>Cálculo baseado em:</p>
+      <ul style="padding-left:20px;line-height:1.8;color:var(--ink-soft);margin-top:6px">
+        <li><b>Crianças (3-13a):</b> Método Holliday-Segar — 100 mL/kg até 10kg + 50 mL/kg de 10-20kg + 20 mL/kg acima de 20kg</li>
+        <li><b>Adolescentes/adultos:</b> 35 mL/kg/dia (referência IOM/EFSA)</li>
+        <li><b>Idosos (&gt;60a):</b> 30 mL/kg/dia (risco de sobrecarga renal)</li>
+        <li>Multiplicado por fator de atividade (1,0-1,7) e clima (0,95-1,2)</li>
+        <li>Inclui ~20% da água via alimentos</li>
+      </ul>
+    </div>
+
+    <div class="card warn">
+      <h3>⚠️ Sinais de desidratação</h3>
+      <p>Boca seca, urina muito amarela, cansaço, dor de cabeça, tontura. Em crianças, fralda seca por mais de 6h ou falta de lágrimas ao chorar. Consulte um médico em caso de sintomas graves.</p>
+    </div>
+  </section>
+
+  <!-- TREATMENT -->
+  <section class="panel" id="p-treat">
+    <h2 class="section"><span class="ic">🏭</span> Tratamento da Água</h2>
+    <p class="lead">As Estações de Tratamento de Água (ETAs) seguem etapas para deixar a água do rio segura para beber.</p>
+
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><b>Captação</b><small>Água é retirada de rios, represas ou poços com bombas e canais.</small></div></div>
+      <div class="step"><div class="n">2</div><div><b>Coagulação</b><small>Adiciona-se sulfato de alumínio: as partículas de sujeira se "grudam" formando flocos.</small></div></div>
+      <div class="step"><div class="n">3</div><div><b>Floculação</b><small>A água é agitada lentamente para os flocos crescerem e ficarem pesados.</small></div></div>
+      <div class="step"><div class="n">4</div><div><b>Decantação</b><small>Os flocos pesados afundam no fundo do tanque (~3-4 horas).</small></div></div>
+      <div class="step"><div class="n">5</div><div><b>Filtração</b><small>A água passa por camadas de areia, cascalho e carvão ativado.</small></div></div>
+      <div class="step"><div class="n">6</div><div><b>Desinfecção</b><small>Adiciona-se cloro (ou ozônio/UV) para matar bactérias e vírus.</small></div></div>
+      <div class="step"><div class="n">7</div><div><b>Fluoretação</b><small>Adiciona-se flúor para prevenir cárie nos dentes.</small></div></div>
+      <div class="step"><div class="n">8</div><div><b>Distribuição</b><small>A água segue por reservatórios e tubulações até sua casa.</small></div></div>
+    </div>
+
+    <div class="card level-only uni" style="margin-top:14px">
+      <h3>🎓 Detalhes técnicos</h3>
+      <p>O <b>tempo de detenção hidráulica</b> em decantadores convencionais é de 2 a 4 h, com taxa de aplicação superficial de 20-40 m³/m²/dia. A coagulação opera em mistura rápida (gradiente G de 600-1200 s⁻¹, 10-30 s); floculação em mistura lenta (G de 20-70 s⁻¹, 20-30 min). A filtração rápida descendente atua a 180-300 m³/m²/dia. Cloração mínima: 0,2 mg/L de cloro livre residual após 30 min de contato (CT). Em mananciais com cianobactérias, considera-se carvão ativado em pó (CAP) ou processo oxidativo avançado (POA).</p>
+    </div>
+
+    <div class="card accent" style="margin-top:14px">
+      <h3>♻️ E o esgoto?</h3>
+      <p>Depois de usar a água, ela vai para a <b>ETE (Estação de Tratamento de Esgoto)</b>: gradeamento → caixa de areia → tratamento biológico (lodos ativados ou UASB) → decantação secundária → desinfecção → corpo receptor. No Brasil, apenas ~50% do esgoto é tratado.</p>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="p-quiz">
+    <h2 class="section"><span class="ic">❓</span> Quiz</h2>
+    <p class="lead">Teste seu conhecimento. Perguntas adaptadas ao nível selecionado no topo.</p>
+
+    <div id="quizStart" class="card">
+      <h3>Pronto para começar?</h3>
+      <p style="margin-top:6px">Você terá 10 perguntas. Cada acerto vale 10 pontos. Boa sorte! 🍀</p>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" id="quizBegin">▶️ Começar quiz</button>
+        <button class="btn ghost" id="quizMix">🔀 Modo misto (todos níveis)</button>
+      </div>
+    </div>
+
+    <div id="quizPlay" style="display:none">
+      <div class="quiz-progress"><div id="qBar"></div></div>
+      <div id="qBox"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+        <small style="color:var(--ink-soft)">Pontos: <b id="qPts">0</b></small>
+        <button class="btn ghost" id="qSkip" style="font-size:13px;padding:8px 14px">Pular ⤳</button>
+      </div>
+    </div>
+
+    <div id="quizDone" style="display:none">
+      <div class="quiz-final">
+        <div style="font-size:14px;color:var(--ink-soft)">Sua pontuação</div>
+        <div class="score" id="qFinal">0</div>
+        <div style="font-size:14px;color:var(--ink-soft)">de 100</div>
+        <div class="badge" id="qBadge">Aprendiz</div>
+        <p id="qMsg" style="margin-top:14px;color:var(--ink-soft);line-height:1.5"></p>
+        <button class="btn" id="qAgain" style="margin-top:14px">🔄 Jogar novamente</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTPRINT -->
+  <section class="panel" id="p-foot">
+    <h2 class="section"><span class="ic">👣</span> Pegada Hídrica</h2>
+    <p class="lead">Cada coisa que comemos, vestimos ou usamos custou água para ser produzida. Veja a pegada hídrica de cada item:</p>
+
+    <div class="card">
+      <div class="pegada-list" id="pegList"></div>
+    </div>
+
+    <div class="card accent">
+      <h3>🛒 Sua pegada do dia</h3>
+      <p style="margin-bottom:10px">Marque o que você consumiu hoje:</p>
+      <div id="pegPicker" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px"></div>
+      <div class="result-big" style="margin-top:14px">
+        <div class="num" id="pegTotal">0</div>
+        <div class="unit">litros virtuais hoje</div>
+        <div class="hint" id="pegHint">Isso equivale a <b id="pegBath">0</b> banhos de 10 minutos.</div>
+      </div>
+    </div>
+
+    <div class="card level-only uni">
+      <h3>🎓 Conceito (Hoekstra & Mekonnen)</h3>
+      <p>A <b>pegada hídrica</b> é decomposta em três componentes: <b>verde</b> (água da chuva consumida pela cultura), <b>azul</b> (águas superficiais e subterrâneas) e <b>cinza</b> (água necessária para diluir poluentes a padrões aceitáveis). A pegada média per capita global é ~1.385 m³/ano, com forte variação: EUA ~2.842, Brasil ~2.027, China ~1.071, Índia ~1.089 m³/ano.</p>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section class="panel" id="p-game">
+    <h2 class="section"><span class="ic">🎮</span> Salve as Gotas!</h2>
+    <p class="lead">Mova a bacia para coletar gotas limpas 💧 e evitar poluentes 🛢️🏭🚯. Use as setas, AD do teclado ou arraste o dedo.</p>
+
+    <div class="game-hud">
+      <div class="live">Pontos <b id="gPts">0</b></div>
+      <div class="live"><b id="gWater">100%</b> 💧</div>
+      <div class="live" id="gLives">❤️❤️❤️</div>
+    </div>
+
+    <div id="game-container" tabindex="0">
+      <div class="basket" id="basket" style="left:50%"></div>
+    </div>
+    <div style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn" id="gStart">▶️ Iniciar</button>
+      <button class="btn ghost" id="gPause" disabled>⏸️ Pausar</button>
+    </div>
+
+    <div class="card ok" style="margin-top:14px">
+      <h3>🎯 Objetivo</h3>
+      <p>Mantenha a qualidade da água acima de 0%! Cada poluente reduz 10%, cada gota limpa restaura 5%. Sobreviva e marque pontos!</p>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section class="panel" id="p-gloss">
+    <h2 class="section"><span class="ic">📖</span> Glossário</h2>
+    <p class="lead">Termos importantes sobre água. Use a busca para encontrar rapidamente.</p>
+    <div class="gloss-search"><input type="text" id="gSearch" placeholder="🔍 Buscar termo (ex: aquífero, ETA, eutrofização)..."></div>
+    <div id="glossList"></div>
+  </section>
+</main>
+
+<nav class="tabs" role="tablist">
+  <button class="active" data-go="home"><span class="ic">🏠</span>Início</button>
+  <button data-go="cycle"><span class="ic">🔄</span>Ciclo</button>
+  <button data-go="quality"><span class="ic">🔬</span>Qualidade</button>
+  <button data-go="calc"><span class="ic">🧮</span>Calc.</button>
+  <button data-go="quiz"><span class="ic">❓</span>Quiz</button>
+  <button data-go="game"><span class="ic">🎮</span>Jogo</button>
+  <button data-go="gloss"><span class="ic">📖</span>Glossário</button>
+</nav>
+
+<script>
+(()=>{ 'use strict';
+
+/* ===== Background drops ===== */
+(() => {
+  const wrap = document.querySelector('.drops');
+  for (let i=0;i<14;i++){
+    const d=document.createElement('div');
+    d.className='drop';
+    d.textContent='💧';
+    d.style.left=Math.random()*100+'%';
+    d.style.animationDuration=(8+Math.random()*8)+'s';
+    d.style.animationDelay=(-Math.random()*16)+'s';
+    d.style.fontSize=(12+Math.random()*16)+'px';
+    wrap.appendChild(d);
+  }
+})();
+
+/* ===== Level switching ===== */
+let level='kids';
+const setLevel = lv => {
+  level=lv;
+  document.body.dataset.level=lv;
+  document.querySelectorAll('.level-btn').forEach(b=>b.classList.toggle('active',b.dataset.level===lv));
+  localStorage.setItem('hidro.level',lv);
+};
+document.querySelectorAll('.level-btn').forEach(b=>{
+  b.addEventListener('click',()=>{ setLevel(b.dataset.level); toast('Nível: '+b.textContent.trim()); });
+});
+const savedLv=localStorage.getItem('hidro.level');
+if(savedLv) setLevel(savedLv);
+
+/* ===== Tabs ===== */
+const showPanel = id => {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+document.querySelectorAll('[data-go]').forEach(b=>{
+  b.addEventListener('click',()=>showPanel(b.dataset.go));
+});
+
+/* ===== Toast ===== */
+function toast(msg){
+  const t=document.createElement('div');
+  t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+
+/* ===== Water cycle ===== */
+const cycleTexts = {
+  evapora:{t:'⬆️ Evaporação',k:'O Sol esquenta a água dos rios e mares e ela vira vapor invisível e sobe para o céu.',j:'A radiação solar aquece a água, que muda de estado líquido para gasoso e ascende na atmosfera. Plantas também evaporam água em um processo chamado transpiração.',u:'Mudança de fase L→G demanda energia (calor latente de vaporização ≈ 2.260 kJ/kg). Evapotranspiração (ET) potencial é estimada por equações como Penman-Monteith, que considera radiação líquida, déficit de pressão de vapor, velocidade do vento e resistência aerodinâmica.'},
+  condensa:{t:'☁️ Condensação',k:'Lá no alto está frio. O vapor vira gotinhas e forma as nuvens.',j:'Ao subir, o vapor encontra temperaturas mais baixas; ao atingir o ponto de orvalho, condensa em torno de núcleos (poeira, sal). Bilhões de gotinhas formam nuvens.',u:'Processo exotérmico governado pelo equilíbrio termodinâmico de Clausius-Clapeyron. A nucleação heterogênea ocorre sobre aerossóis (CCN — cloud condensation nuclei) com diâmetros típicos de 0,1-1 μm.'},
+  precip:{t:'⬇️ Precipitação',k:'As gotinhas se juntam e ficam pesadas - aí cai a chuva (ou neve, granizo).',j:'Quando as gotículas crescem por colisão e coalescência ou via processo Bergeron, sua massa supera a sustentação aérea e elas precipitam.',u:'Pode ser convectiva, orográfica ou frontal. Distribuição espaço-temporal mensurada por pluviômetros e radares meteorológicos (refletividade Z em dBZ relacionada à intensidade R por Z = a·R^b).'},
+  infiltra:{t:'🌱 Infiltração',k:'Parte da água da chuva entra na terra e vira água subterrânea, que abastece poços!',j:'A água penetra no solo seguindo a lei de Darcy. Pode chegar à zona saturada e formar aquíferos, principal fonte de água potável em ~50% das cidades brasileiras.',u:'Velocidade dada por equação de Richards. A capacidade de campo, ponto de murcha permanente e condutividade hidráulica saturada (Ksat) determinam o regime. Aquíferos: livres, confinados, semiconfinados — caracterizados por transmissividade T e armazenamento S.'},
+  escoa:{t:'🌊 Escoamento',k:'O resto da água escorre por riachos e rios até chegar ao mar.',j:'Escoamento superficial direto + base flow formam a vazão dos rios. A bacia hidrográfica é a unidade de planejamento.',u:'Modelado por hidrogramas unitários, modelos chuva-vazão (SCS-CN, MGB-IPH, SWAT). A vazão Q = A·v depende de seção transversal e velocidade (Manning: v = (1/n)·R^(2/3)·S^(1/2)).'}
+};
+document.querySelectorAll('#cycleSvg [data-step]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('#cycleSvg .label').forEach(l=>l.classList.remove('active'));
+    el.classList.add('active');
+    const data=cycleTexts[el.dataset.step];
+    const ix=document.getElementById('cycleInfo');
+    const txt = level==='kids'?data.k : level==='teens'?data.j : data.u;
+    ix.innerHTML='<b>'+data.t+'</b><span>'+txt+'</span>';
+  });
+});
+
+/* ===== Quality sliders ===== */
+const Q={
+  ph:{r:'ph-r',v:'ph-v',vd:'ph-vd',fmt:n=>n.toFixed(1).replace('.',','),check:n=>{
+    if(n<6)return ['bad','❌ Ácida demais — corrosiva, pode dissolver metais.'];
+    if(n>9.5)return ['bad','❌ Básica demais — sabor amargo, pele ressecada.'];
+    if(n<6.5||n>8.5)return ['warn','⚠️ Aceitável, mas longe do ideal.'];
+    return ['good','✅ Faixa ideal para consumo.'];
+  }},
+  turb:{r:'turb-r',v:'turb-v',vd:'turb-vd',fmt:n=>n.toFixed(1).replace('.',',')+' NTU',check:n=>{
+    if(n>5)return ['bad','❌ Acima do limite legal (5 NTU). Proteja microrganismos do cloro.'];
+    if(n>1)return ['warn','⚠️ Aceitável após filtração, ideal ≤ 1 NTU.'];
+    return ['good','✅ Cristalina!'];
+  }},
+  cl:{r:'cl-r',v:'cl-v',vd:'cl-vd',fmt:n=>n.toFixed(2).replace('.',','),check:n=>{
+    if(n<0.2)return ['bad','❌ Sem cloro residual — risco microbiológico.'];
+    if(n>5)return ['bad','❌ Excesso — gosto/cheiro fortes, irritação.'];
+    if(n>2)return ['warn','⚠️ Alto, ainda dentro do limite.'];
+    return ['good','✅ Faixa adequada (0,2-2 mg/L).'];
+  }},
+  dur:{r:'dur-r',v:'dur-v',vd:'dur-vd',fmt:n=>n.toFixed(0)+' mg/L',check:n=>{
+    if(n>500)return ['bad','❌ Extremamente dura — incrustações, sabor.'];
+    if(n>=180)return ['warn','⚠️ Dura — saudável, mas pode sujar canos.'];
+    if(n<=60)return ['good','✅ Branda — boa para sabão e canos.'];
+    return ['good','✅ Moderada — ok.'];
+  }},
+  od:{r:'od-r',v:'od-v',vd:'od-vd',fmt:n=>n.toFixed(1).replace('.',',')+' mg/L',check:n=>{
+    if(n<2)return ['bad','❌ Crítico — peixes morrem.'];
+    if(n<5)return ['warn','⚠️ Estresse para vida aquática.'];
+    return ['good','✅ Saudável para o ecossistema.'];
+  }},
+  col:{r:'col-r',v:'col-v',vd:'col-vd',fmt:n=>Math.round(n)+' UFC',check:n=>{
+    if(n>=200)return ['bad','❌ Contaminação alta — não potável.'];
+    if(n>0)return ['bad','❌ Não pode ter coliformes em água potável.'];
+    return ['good','✅ Ausência confirmada.'];
+  }}
+};
+function updateQuality(){
+  let goods=0,total=0;
+  Object.keys(Q).forEach(k=>{
+    const q=Q[k];
+    const r=document.getElementById(q.r);
+    const n=parseFloat(r.value);
+    document.getElementById(q.v).textContent=q.fmt(n);
+    const [cls,msg]=q.check(n);
+    const vd=document.getElementById(q.vd);
+    vd.className='verdict '+cls;
+    vd.textContent=msg;
+    total++;
+    if(cls==='good')goods++;
+  });
+  const ov=document.getElementById('overallVerdict');
+  if(goods===total){ov.innerHTML='💎 <b>Excelente</b> — água potável de alta qualidade.';ov.style.color='#1b5e20';}
+  else if(goods>=total-1){ov.innerHTML='👍 <b>Boa</b> — atende padrões com pequenas ressalvas.';ov.style.color='#33691e';}
+  else if(goods>=total/2){ov.innerHTML='⚠️ <b>Regular</b> — requer tratamento adicional.';ov.style.color='#bf360c';}
+  else{ov.innerHTML='☠️ <b>Imprópria</b> — não consuma sem tratamento.';ov.style.color='#b71c1c';}
+}
+Object.values(Q).forEach(q=>document.getElementById(q.r).addEventListener('input',updateQuality));
+updateQuality();
+
+/* ===== Hydration calculator ===== */
+document.getElementById('calcBtn').addEventListener('click',()=>{
+  const age=+document.getElementById('cAge').value||10;
+  const kg=+document.getElementById('cKg').value||30;
+  const act=+document.getElementById('cAct').value;
+  const clim=+document.getElementById('cClim').value;
+  let baseML;
+  if(age<14){
+    if(kg<=10) baseML = 100*kg;
+    else if(kg<=20) baseML = 1000 + 50*(kg-10);
+    else baseML = 1500 + 20*(kg-20);
+  } else if(age>=60){
+    baseML = 30*kg;
+  } else {
+    baseML = 35*kg;
+  }
+  const total = Math.round(baseML * act * clim);
+  const liters = (total/1000);
+  const drinkML = Math.round(total*0.8);
+  const cups = Math.round(drinkML/200);
+  const r=document.getElementById('calcResult');
+  r.style.display='block';
+  document.getElementById('calcNum').textContent=liters.toFixed(2).replace('.',',');
+  document.getElementById('calcHint').innerHTML =
+    `Beba cerca de <b>${(drinkML/1000).toFixed(2).replace('.',',')} L</b> (~ <b>${cups} copos</b> de 200 mL).<br>O resto vem de frutas, sopas e alimentos.`;
+});
+
+/* ===== Quiz ===== */
+const quizBank = {
+  kids:[
+    {q:'Que parte do nosso planeta é coberta de água?',a:['Cerca de 70%','Cerca de 30%','Cerca de 50%','Cerca de 90%'],c:0,e:'Mais de 70% da superfície da Terra é água, mas a maior parte é salgada.'},
+    {q:'Qual é a fórmula química da água?',a:['CO₂','H₂O','O₂','NaCl'],c:1,e:'2 átomos de hidrogênio (H) + 1 de oxigênio (O) = H₂O.'},
+    {q:'Por que devemos fechar a torneira ao escovar os dentes?',a:['Para fazer barulho','Para economizar água','Porque enferruja','Por nada'],c:1,e:'Em 2 minutos, escovar com torneira aberta gasta até 12 litros!'},
+    {q:'O que é o ciclo da água?',a:['Andar de bicicleta','A água viajando entre céu, terra e mar','Um jogo','Um filme'],c:1,e:'Evaporação, condensação, precipitação, escoamento - sem fim!'},
+    {q:'Qual destes NÃO é estado físico da água?',a:['Sólido (gelo)','Líquido','Gasoso (vapor)','Esponjoso'],c:3,e:'Água tem 3 estados: sólido, líquido e gasoso.'},
+    {q:'Para a água ser potável, o que NÃO pode ter?',a:['Hidrogênio','Bactérias ruins','Oxigênio','Minerais'],c:1,e:'Coliformes (bactérias do esgoto) tornam a água não potável.'},
+    {q:'Qual é mais econômico?',a:['Banho de 5 minutos','Banho de 30 minutos','Banheira cheia','Lavar carro com mangueira'],c:0,e:'Banho rápido pode usar 45 L; longo, mais de 270 L!'},
+    {q:'Onde está a maior parte da água doce do mundo?',a:['Em rios','Nas geleiras e calotas polares','Em lagos','No mar'],c:1,e:'Cerca de 68% da água doce está congelada nos polos!'},
+    {q:'O que faz a água ferver?',a:['Friagem','Calor','Sal','Açúcar'],c:1,e:'A 100°C ao nível do mar, a água ferve e vira vapor.'},
+    {q:'Beber pouca água pode causar:',a:['Mais energia','Desidratação','Crescer mais','Ficar feliz'],c:1,e:'Sintomas: dor de cabeça, urina escura, cansaço.'},
+    {q:'Qual animal precisa de água doce limpa para viver?',a:['Peixe do rio','Estrela do mar','Tubarão','Polvo'],c:0,e:'Peixes de rios e lagos vivem em água doce.'},
+    {q:'O esgoto vai direto para o rio?',a:['Sim, sempre','Não, deve ser tratado primeiro','Vai pro espaço','Vira gelo'],c:1,e:'Estações de Tratamento de Esgoto (ETEs) limpam antes de devolver à natureza.'}
+  ],
+  teens:[
+    {q:'Qual a porcentagem de água doce disponível para uso humano direto no planeta?',a:['Cerca de 30%','Cerca de 10%','Menos de 1%','Cerca de 2,5%'],c:2,e:'Apenas ~0,3% da água doce está em rios e lagos acessíveis. 2,5% é a fração total de água doce, mas a maior parte é congelada.'},
+    {q:'O que mede a turbidez da água?',a:['Acidez','Sujeira/partículas em suspensão','Temperatura','Salinidade'],c:1,e:'Turbidez é medida em NTU. Para água potável: ≤ 5 NTU.'},
+    {q:'pH da água potável deve estar entre:',a:['0 e 7','6 e 9,5','10 e 14','3 e 5'],c:1,e:'A faixa ideal segundo norma brasileira (Portaria 888/2021).'},
+    {q:'Quantos litros de água em média um brasileiro consome por dia (uso direto)?',a:['~50 L','~150 L','~500 L','~1.000 L'],c:1,e:'Cerca de 154 L/dia/pessoa - acima do mínimo recomendado pela ONU (110 L).'},
+    {q:'Qual etapa da ETA usa cloro?',a:['Decantação','Filtração','Desinfecção','Floculação'],c:2,e:'Cloro mata bactérias e vírus na desinfecção, última etapa antes da distribuição.'},
+    {q:'O que é um aquífero?',a:['Animal aquático','Reserva subterrânea de água','Tipo de chuva','Encanamento'],c:1,e:'Camada subterrânea de rocha porosa que armazena água. O Guarani é um dos maiores do mundo.'},
+    {q:'Qual destas culturas tem maior pegada hídrica por kg?',a:['Tomate','Carne bovina','Batata','Arroz'],c:1,e:'1 kg de carne bovina ≈ 15.400 L de água (incluindo ração e bebida do gado).'},
+    {q:'Eutrofização é causada principalmente por:',a:['Excesso de nutrientes (N e P)','Falta de oxigênio','Sal','Metais pesados'],c:0,e:'Nitrogênio e fósforo (de esgoto e fertilizantes) causam algas e morte de peixes.'},
+    {q:'A "água virtual" é:',a:['Água em jogos online','Água usada para produzir bens','Água gelada','Água destilada'],c:1,e:'Conceito do prof. Allan: água embutida na produção de produtos.'},
+    {q:'Coliformes termotolerantes em água potável:',a:['Podem até 100 UFC','Devem estar ausentes','Indicam pureza','São saudáveis'],c:1,e:'Indicam contaminação fecal - a norma exige ausência em 100 mL.'},
+    {q:'Qual é o oceano com maior volume?',a:['Atlântico','Índico','Pacífico','Ártico'],c:2,e:'O Pacífico contém ~50% da água oceânica e cobre 1/3 da Terra.'},
+    {q:'Saneamento básico no Brasil cobre cerca de:',a:['~50% do esgoto tratado','~95%','~30%','100%'],c:0,e:'Cerca de metade do esgoto coletado é tratado. Cobertura desigual entre regiões.'},
+    {q:'Vírus em água são removidos por:',a:['Filtração simples','Decantação','Cloro/UV/ozônio','Fervura por 1s'],c:2,e:'Vírus são pequenos demais para filtros comuns - precisa de desinfecção química/UV.'},
+    {q:'Crise hídrica em SP (2014-15) foi por:',a:['Excesso de chuva','Estiagem prolongada','Frio','Vento'],c:1,e:'Sistema Cantareira chegou a 5% da capacidade após estiagem severa.'}
+  ],
+  uni:[
+    {q:'Equação de Penman-Monteith é usada para estimar:',a:['Vazão de pico','Evapotranspiração de referência','Carga de DBO','Coeficiente de Manning'],c:1,e:'ET₀ combina balanço energético e aerodinâmico - padrão FAO-56.'},
+    {q:'Em hidrogeologia, transmissividade T é:',a:['Velocidade de fluxo','K × espessura saturada','Pressão hidrostática','Carga total'],c:1,e:'T = K·b, onde K é condutividade hidráulica e b a espessura. Unidade: m²/s.'},
+    {q:'A 25°C, o produto iônico da água Kw é:',a:['10⁻⁷','10⁻¹⁴','10⁻³','1'],c:1,e:'Kw = [H⁺][OH⁻] = 10⁻¹⁴. Em água pura, [H⁺]=[OH⁻]=10⁻⁷, logo pH 7.'},
+    {q:'No tratamento, a coagulação ocorre em:',a:['Mistura lenta (G ~30 s⁻¹)','Mistura rápida (G 600-1200 s⁻¹)','Sem mistura','Aeração'],c:1,e:'Alto gradiente G por 10-30 s para dispersão do coagulante.'},
+    {q:'DBO mede:',a:['Demanda química de oxigênio','Demanda bioquímica de oxigênio','Densidade','pH'],c:1,e:'DBO₅ = O₂ consumido em 5 dias por microrganismos para degradar matéria orgânica.'},
+    {q:'A Resolução CONAMA 357/2005 classifica águas em:',a:['3 classes','5 classes','13 classes (5 doces + 4 salobras + 4 salinas)','infinitas'],c:2,e:'Classes Especial, 1, 2, 3, 4 para doces, com diferentes usos preponderantes.'},
+    {q:'Pegada hídrica cinza representa:',a:['Água da chuva consumida','Água superficial usada','Água p/ diluir poluentes a padrão','Água destilada'],c:2,e:'Conceito de Hoekstra & Mekonnen: volume teórico para diluir poluição lançada.'},
+    {q:'Equação de Manning para escoamento livre:',a:['v=(1/n)·R^(2/3)·S^(1/2)','Q=KIA','q=-K·dh/dx','F=ρgh'],c:0,e:'Manning: v = (1/n)·Rh^(2/3)·S^(1/2), com n = coef. de rugosidade.'},
+    {q:'Em modelos chuva-vazão, "CN" (curve number SCS) varia entre:',a:['0-1','30-100','100-1000','1-14'],c:1,e:'CN aproxima 100 em superfície impermeável e ~30 em mata densa em solo seco.'},
+    {q:'No ciclo do nitrogênio aquático, nitrificação produz:',a:['NH₃','NO₂⁻ → NO₃⁻','N₂','NH₄⁺'],c:1,e:'Nitrosomonas: NH₄⁺→NO₂⁻; Nitrobacter: NO₂⁻→NO₃⁻. Aeróbio.'},
+    {q:'Hidrograma unitário é a resposta a:',a:['Chuva uniforme de 1 unidade','Vazão constante','Evaporação','Infiltração nula'],c:0,e:'Hipótese de linearidade: HU para 1 mm em duração D na bacia.'},
+    {q:'Eutrofização é controlada principalmente removendo:',a:['Cloro','Nitrogênio e fósforo','Cálcio','pH'],c:1,e:'P costuma ser limitante em água doce. Plantas de tratamento avançado fazem remoção biológica.'},
+    {q:'Para desinfecção, conceito CT é:',a:['Custo total','Concentração × Tempo de contato','Carbono total','Capacidade térmica'],c:1,e:'Quanto maior CT, maior inativação. Cryptosporidium exige CT muito alto.'},
+    {q:'Lei de Darcy é válida para:',a:['Regime turbulento','Fluxo laminar em meio poroso','Canais abertos','Tubulações pressurizadas'],c:1,e:'q = -K·∇h. Re < 1 a 10 (em poros).'},
+    {q:'Proporção da água doce do mundo em geleiras é cerca de:',a:['~10%','~30%','~68%','~95%'],c:2,e:'~68% em geleiras/calotas, ~30% subterrânea, <0,3% rios e lagos.'}
+  ]
+};
+let qState=null;
+function startQuiz(mix){
+  let pool;
+  if(mix){
+    pool=[...quizBank.kids,...quizBank.teens,...quizBank.uni];
+  } else {
+    pool=[...quizBank[level==='uni'?'uni':level==='teens'?'teens':'kids']];
+  }
+  pool.sort(()=>Math.random()-0.5);
+  qState={pool:pool.slice(0,10),i:0,pts:0,answered:false};
+  document.getElementById('quizStart').style.display='none';
+  document.getElementById('quizDone').style.display='none';
+  document.getElementById('quizPlay').style.display='block';
+  renderQ();
+}
+function renderQ(){
+  const q=qState.pool[qState.i];
+  document.getElementById('qBar').style.width=((qState.i)/qState.pool.length*100)+'%';
+  document.getElementById('qPts').textContent=qState.pts;
+  qState.answered=false;
+  const box=document.getElementById('qBox');
+  box.innerHTML=`<div class="quiz-q">
+    <span class="qno">Pergunta ${qState.i+1}/${qState.pool.length}</span>
+    <h4>${q.q}</h4>
+    <div class="opts">${q.a.map((a,i)=>`<button class="opt" data-i="${i}">${a}</button>`).join('')}</div>
+    <div class="explain" style="display:none" id="qExplain"></div>
+  </div>`;
+  box.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(+b.dataset.i)));
+}
+function answer(idx){
+  if(qState.answered) return;
+  qState.answered=true;
+  const q=qState.pool[qState.i];
+  const opts=document.querySelectorAll('.opt');
+  opts.forEach((o,i)=>{o.classList.add('disabled'); if(i===q.c) o.classList.add('correct'); else if(i===idx) o.classList.add('wrong');});
+  if(idx===q.c) qState.pts+=10;
+  document.getElementById('qPts').textContent=qState.pts;
+  const ex=document.getElementById('qExplain');
+  ex.style.display='block';
+  ex.innerHTML='<b>'+(idx===q.c?'✅ Correto!':'❌ Resposta correta destacada.')+'</b> '+q.e;
+  setTimeout(()=>{
+    qState.i++;
+    if(qState.i>=qState.pool.length) finishQuiz();
+    else renderQ();  },1700);
+}
+function finishQuiz(){
+  document.getElementById('quizPlay').style.display='none';
+  document.getElementById('quizDone').style.display='block';
+  document.getElementById('qFinal').textContent=qState.pts;
+  let badge,msg;
+  if(qState.pts===100){badge='🏆 Mestre da Água';msg='Perfeito! Você dominou o assunto!';}
+  else if(qState.pts>=80){badge='💎 Especialista';msg='Excelente! Quase tudo certo.';}
+  else if(qState.pts>=60){badge='🌊 Conhecedor';msg='Bom trabalho! Já entende bem.';}
+  else if(qState.pts>=40){badge='💧 Aprendiz';msg='Vamos estudar mais um pouco.';}
+  else{badge='🌱 Iniciante';msg='Não desanime — leia as outras seções e tente de novo!';}
+  document.getElementById('qBadge').textContent=badge;
+  document.getElementById('qMsg').textContent=msg;
+  document.getElementById('qBar').style.width='100%';
+}
+document.getElementById('quizBegin').addEventListener('click',()=>startQuiz(false));
+document.getElementById('quizMix').addEventListener('click',()=>startQuiz(true));
+document.getElementById('qSkip').addEventListener('click',()=>{
+  if(!qState||qState.answered) return;
+  qState.i++;
+  if(qState.i>=qState.pool.length) finishQuiz();
+  else renderQ();
+});
+document.getElementById('qAgain').addEventListener('click',()=>{
+  document.getElementById('quizDone').style.display='none';
+  document.getElementById('quizStart').style.display='block';
+});
+
+/* ===== Footprint ===== */
+const peg = [
+  {e:'🍔',n:'Hambúrguer (150g)',l:2400,d:'carne, pão, queijo'},
+  {e:'🥩',n:'Bife (200g)',l:3080,d:'1 kg ≈ 15.400 L'},
+  {e:'🍗',n:'Frango (200g)',l:860,d:'1 kg ≈ 4.300 L'},
+  {e:'🥚',n:'1 ovo',l:200,d:'inclui ração da galinha'},
+  {e:'🥛',n:'Copo de leite (200mL)',l:200,d:'1 L ≈ 1.020 L de água'},
+  {e:'🧀',n:'Queijo (50g)',l:250,d:'1 kg ≈ 5.000 L'},
+  {e:'🍞',n:'Pão (1 fatia)',l:48,d:'trigo, processamento'},
+  {e:'🍚',n:'Arroz (1 prato)',l:560,d:'inundação consome muita água'},
+  {e:'🍝',n:'Macarrão (porção)',l:300,d:'massa + molho'},
+  {e:'🍅',n:'Tomate (1)',l:13,d:'baixa pegada'},
+  {e:'🥔',n:'Batata (média)',l:25,d:'baixa pegada'},
+  {e:'🍎',n:'Maçã',l:125,d:'irrigação do pomar'},
+  {e:'🍊',n:'Laranja',l:50,d:''},
+  {e:'🍌',n:'Banana',l:160,d:''},
+  {e:'☕',n:'Café (xícara)',l:140,d:'cultivo + processamento'},
+  {e:'🥤',n:'Refrigerante (lata)',l:170,d:'açúcar + processo'},
+  {e:'🍫',n:'Chocolate (50g)',l:850,d:'cacau é exigente'},
+  {e:'👕',n:'Camiseta de algodão',l:2700,d:'cultivo + tecelagem + tingir'},
+  {e:'👖',n:'Calça jeans',l:7600,d:'inclui tingimento'},
+  {e:'📱',n:'Smartphone',l:13000,d:'mineração + montagem'},
+  {e:'🚗',n:'Carro pequeno',l:147000,d:'aço, plástico, montagem'},
+  {e:'📰',n:'Folha A4',l:10,d:'celulose'},
+  {e:'🍺',n:'Cerveja (lata 330mL)',l:74,d:'malte, lúpulo, água'},
+];
+function renderPeg(){
+  const max=Math.max(...peg.map(p=>p.l));
+  document.getElementById('pegList').innerHTML = peg.map(p=>`
+    <div class="pegada-row">
+      <div class="em">${p.e}</div>
+      <div><b>${p.n}</b><small>${p.d}</small>
+        <div class="pegada-bar"><div style="width:${(p.l/max*100).toFixed(1)}%"></div></div>
+      </div>
+      <div class="vol">${p.l.toLocaleString('pt-BR')} L</div>
+    </div>
+  `).join('');
+  document.getElementById('pegPicker').innerHTML = peg.slice(0,12).map((p,i)=>`
+    <label style="cursor:pointer;background:#fff;border:2px solid var(--bord);border-radius:10px;padding:8px;display:flex;align-items:center;gap:6px;font-size:13px">
+      <input type="checkbox" data-li="${p.l}" style="accent-color:var(--azul)"> ${p.e} ${p.n.split(' (')[0]}
+    </label>
+  `).join('');
+  document.querySelectorAll('#pegPicker input').forEach(i=>i.addEventListener('change',updatePegTotal));
+}
+function updatePegTotal(){
+  let t=0;
+  document.querySelectorAll('#pegPicker input:checked').forEach(i=>t+=+i.dataset.li);
+  document.getElementById('pegTotal').textContent=t.toLocaleString('pt-BR');
+  document.getElementById('pegBath').textContent=Math.round(t/100);
+}
+renderPeg();
+
+/* ===== Glossary ===== */
+const gloss=[
+  ['Aquífero','Camada subterrânea de rocha permeável que armazena e transmite água. O Aquífero Guarani, sob o Brasil, Argentina, Uruguai e Paraguai, é um dos maiores do mundo.'],
+  ['Bacia hidrográfica','Área geográfica delimitada por divisores de água onde toda a chuva drena para um único rio principal. Unidade básica de gestão de recursos hídricos.'],
+  ['Cloração','Adição de cloro (gás, hipoclorito) à água para desinfecção microbiana. Última etapa do tratamento.'],
+  ['Coagulação','Adição de sulfato de alumínio (ou cloreto férrico) à água para neutralizar cargas e formar microflocos.'],
+  ['Coliformes','Grupo de bactérias usadas como indicadoras de contaminação fecal. Em água potável, exige-se ausência em 100 mL.'],
+  ['CONAMA 357','Resolução brasileira (2005) que classifica corpos d\'água em classes (Especial, 1-4 doces, etc) e define padrões de qualidade por uso.'],
+  ['Dessalinização','Processo de retirada de sal da água do mar (osmose reversa, destilação) - cara, ~3 kWh/m³.'],
+  ['Desinfecção','Eliminação de microrganismos patogênicos por cloro, ozônio, UV ou fervura.'],
+  ['DBO','Demanda Bioquímica de Oxigênio. Quantidade de O₂ que microrganismos consomem para degradar matéria orgânica - mede poluição orgânica.'],
+  ['DQO','Demanda Química de Oxigênio. Mede oxidabilidade total via oxidante químico forte. Sempre ≥ DBO.'],
+  ['Dureza','Concentração de Ca²⁺ e Mg²⁺. Branda <60, moderada 60-180, dura ≥180 mg/L (CaCO₃).'],
+  ['Efluente','Líquido que sai de uma estação de tratamento ou processo industrial.'],
+  ['ETA','Estação de Tratamento de Água. Transforma água bruta em potável.'],
+  ['ETE','Estação de Tratamento de Esgoto. Trata esgoto antes do retorno ao corpo d\'água.'],
+  ['Eutrofização','Enriquecimento excessivo de nutrientes (N, P) em corpos d\'água, causando floração de algas, hipoxia e morte de peixes.'],
+  ['Evapotranspiração','Soma da evaporação de superfícies + transpiração das plantas. Penman-Monteith é o método de referência.'],
+  ['Floculação','Mistura lenta após coagulação que faz os microflocos se aglomerarem em flocos maiores.'],
+  ['Hidrograma','Gráfico de vazão ao longo do tempo em uma seção fluvial.'],
+  ['Lei de Darcy','q = -K·∇h. Fluxo em meio poroso é proporcional ao gradiente hidráulico.'],
+  ['Manancial','Fonte de água bruta para abastecimento (rio, represa, lago, poço).'],
+  ['NTU','Nephelometric Turbidity Unit - unidade de turbidez. Limite legal: 5 NTU para água tratada.'],
+  ['Osmose reversa','Pressão aplicada para forçar água através de membrana semipermeável, retendo sais e contaminantes.'],
+  ['Pegada hídrica','Volume total de água doce usado para produzir um bem ou serviço. Verde (chuva) + azul (superficial/subterrânea) + cinza (diluição).'],
+  ['pH','Potencial hidrogeniônico. -log[H⁺]. Água potável: 6,0-9,5.'],
+  ['Potabilidade','Qualidade da água apta para consumo humano. No Brasil, regida pela Portaria GM/MS 888/2021.'],
+  ['Precipitação','Queda de água em qualquer forma (chuva, neve, granizo) sobre a superfície.'],
+  ['Recarga (de aquífero)','Reposição de água subterrânea via infiltração de chuva, rios ou injeção artificial.'],
+  ['Saneamento básico','Conjunto de serviços: abastecimento de água, esgotamento sanitário, drenagem, resíduos sólidos.'],
+  ['Sólidos dissolvidos totais (SDT)','Massa de minerais e sais dissolvidos. Limite potável: 1.000 mg/L.'],
+  ['Stress hídrico','Condição quando a demanda excede a oferta de água. ONU: <1.700 m³/hab/ano = stress.'],
+  ['Turbidez','Medida ótica da quantidade de partículas em suspensão na água.'],
+  ['UASB','Reator Anaeróbio de Fluxo Ascendente - tipo de tratamento biológico de esgoto.'],
+  ['Água virtual','Conceito (Tony Allan, 1993): água "embutida" na produção de produtos, comercializada via comércio internacional.']
+];
+function renderGloss(filter=''){
+  const list=document.getElementById('glossList');
+  const f=filter.toLowerCase().trim();
+  const items=gloss.filter(g=>!f||g[0].toLowerCase().includes(f)||g[1].toLowerCase().includes(f));
+  if(!items.length){ list.innerHTML='<div class="card"><p>Nenhum termo encontrado.</p></div>'; return; }
+  list.innerHTML=items.map(g=>`<details class="gterm"><summary>${g[0]}</summary><div>${g[1]}</div></details>`).join('');
+}
+renderGloss();
+document.getElementById('gSearch').addEventListener('input',e=>renderGloss(e.target.value));
+
+/* ===== Game: Catch the drops ===== */
+const G={
+  area:document.getElementById('game-container'),
+  basket:document.getElementById('basket'),
+  pts:0, water:100, lives:3, running:false, paused:false,
+  baseSpeed:3.5, spawnEvery:900, lastSpawn:0,
+  bx:50,
+  raf:null,
+  lvls:1
+};
+function gHud(){
+  document.getElementById('gPts').textContent=G.pts;
+  const w=document.getElementById('gWater');
+  w.textContent=Math.max(0,Math.round(G.water))+'%';
+  w.parentElement.classList.toggle('danger',G.water<25);
+  document.getElementById('gLives').textContent='❤️'.repeat(Math.max(0,G.lives));
+}
+function spawn(){
+  const items = [
+    {e:'💧',good:1},{e:'💧',good:1},{e:'💧',good:1},{e:'💎',good:2},
+    {e:'🛢️',good:-1},{e:'🚯',good:-1},{e:'☠️',good:-2}
+  ];
+  const it = items[Math.floor(Math.random()*items.length)];
+  const d=document.createElement('div');
+  d.className='falling';
+  d.textContent=it.e;
+  d.dataset.g=it.good;
+  const x=4+Math.random()*92;
+  d.style.left=x+'%';
+  d.style.top='-30px';
+  d.style.animationDuration=(3.2-Math.min(2,G.lvls*0.1))+'s';
+  G.area.appendChild(d);
+}
+function gTick(t){
+  if(!G.running||G.paused){G.raf=requestAnimationFrame(gTick); return;}
+  if(t-G.lastSpawn > Math.max(380,G.spawnEvery-G.lvls*30)){
+    spawn(); G.lastSpawn=t;
+  }
+  const bRect=G.basket.getBoundingClientRect();
+  G.area.querySelectorAll('.falling').forEach(d=>{
+    const r=d.getBoundingClientRect();
+    if(r.top > G.area.getBoundingClientRect().bottom){ d.remove(); return; }
+    if(r.bottom>=bRect.top && r.left<bRect.right && r.right>bRect.left && r.top<bRect.bottom){
+      const g=+d.dataset.g;
+      d.remove();
+      if(g>0){ G.pts+=g*5; G.water=Math.min(100,G.water+5*g); }
+      else { G.pts=Math.max(0,G.pts+g*5); G.water+=g*10; }
+      if(G.water<=0){ G.lives--; G.water=50; if(G.lives<=0){ endG(); return; } }
+      gHud();
+      G.lvls = 1 + Math.floor(G.pts/40);
+    }
+  });
+  G.raf=requestAnimationFrame(gTick);
+}
+function moveBasket(px){
+  const r=G.area.getBoundingClientRect();
+  let pct = ((px-r.left)/r.width)*100;
+  pct=Math.max(8,Math.min(92,pct));
+  G.bx=pct;
+  G.basket.style.left=pct+'%';
+}
+function startG(){
+  if(G.running) return;
+  G.area.querySelectorAll('.falling').forEach(d=>d.remove());
+  G.pts=0; G.water=100; G.lives=3; G.lvls=1; G.running=true; G.paused=false; G.lastSpawn=performance.now();
+  document.getElementById('gPause').disabled=false;
+  document.getElementById('gPause').textContent='⏸️ Pausar';
+  gHud();
+  G.raf=requestAnimationFrame(gTick);
+}
+function endG(){
+  G.running=false;
+  cancelAnimationFrame(G.raf);
+  document.getElementById('gPause').disabled=true;
+  toast('🛑 Game Over! '+G.pts+' pontos.');
+}
+document.getElementById('gStart').addEventListener('click',startG);
+document.getElementById('gPause').addEventListener('click',e=>{
+  if(!G.running) return;
+  G.paused=!G.paused;
+  e.target.textContent=G.paused?'▶️ Continuar':'⏸️ Pausar';
+});
+G.area.addEventListener('mousemove',e=>moveBasket(e.clientX));
+G.area.addEventListener('touchmove',e=>{e.preventDefault();moveBasket(e.touches[0].clientX);},{passive:false});
+G.area.addEventListener('touchstart',e=>moveBasket(e.touches[0].clientX),{passive:true});
+window.addEventListener('keydown',e=>{
+  if(!G.running||G.paused) return;
+  if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){ G.bx=Math.max(8,G.bx-6); G.basket.style.left=G.bx+'%'; }
+  if(e.key==='ArrowRight'||e.key==='d'||e.key==='D'){ G.bx=Math.min(92,G.bx+6); G.basket.style.left=G.bx+'%'; }
+});
+
+/* ===== init ===== */
+showPanel('home');
+})();
+</script>
+</body>
+</html>
